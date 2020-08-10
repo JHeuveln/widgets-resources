@@ -70,3 +70,7 @@
 	path = packages/customWidgets/slider-web/tests/testProject
 	url = https://github.com/mendix/testProjects.git
 	branch = slider-web
+[submodule "packages/pluggableWidgets/timeline-web/tests/testProject"]
+	path = packages/pluggableWidgets/timeline-web/tests/testProject
+	url = https://github.com/mendix/testProjects.git
+	branch = timeline-web
