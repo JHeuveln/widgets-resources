@@ -12,7 +12,7 @@ import { ColumnInstance, HeaderGroup, IdType, SortingRule, TableHeaderProps } fr
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltDown, faLongArrowAltUp, faArrowsAltV } from "@fortawesome/free-solid-svg-icons";
-import { ColumnSize } from "./Table";
+import { ColumnSize, width } from "./Table";
 
 export interface HeaderProps<D extends object> {
     column: HeaderGroup<D>;
@@ -48,15 +48,12 @@ export function Header<D extends object>(props: HeaderProps<D>): ReactElement {
 
     const weight = props.weight ?? 1;
 
+    console.warn(props.column);
+
     return (
         <div
             ref={ref => {
-                if (
-                    (!props.resizable || !props.column.canResize) &&
-                    (weight === 0 || weight <= 0) &&
-                    ref &&
-                    ref.clientWidth
-                ) {
+                if (ref && ref.clientWidth && ref.clientWidth !== width) {
                     props.setColumnSizes((prev: ColumnSize) => {
                         const id = props.column.id as string;
                         if (prev[id] !== ref.clientWidth) {
@@ -71,9 +68,8 @@ export function Header<D extends object>(props: HeaderProps<D>): ReactElement {
             {...rest}
             style={{
                 ...style,
-                ...(!props.resizable ? { flex: `${props.weight == null ? 1 : props.weight} 1 auto` } : {}),
-                ...(!props.sortable || !props.column.canSort ? { cursor: "unset" } : {}),
-                ...(!props.resizable && props.weight === 0 ? { width: "unset" } : {})
+                ...(style?.width === `${width}px` ? { flex: `${weight} 1 ${width}px`, width: "unset" } : {}),
+                ...(!props.sortable || !props.column.canSort ? { cursor: "unset" } : {})
             }}
             title={props.column.render("Header") as string}
         >

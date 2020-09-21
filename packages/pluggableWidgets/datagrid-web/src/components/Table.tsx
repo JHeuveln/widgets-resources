@@ -53,6 +53,8 @@ export interface ColumnSize {
     [key: string]: number;
 }
 
+export const width = 100;
+
 export function Table<T>(props: TableProps<T>): ReactElement {
     const isSortingOrFiltering = props.columnsFilterable || props.columnsSortable;
     const isInfinite = !props.paging && !isSortingOrFiltering;
@@ -68,9 +70,6 @@ export function Table<T>(props: TableProps<T>): ReactElement {
     const [sortBy, setSortBy] = useState<Array<SortingRule<object>>>([]);
     const [filters, setFilters] = useState<Filters<object>>([]);
     const [columnSizes, setColumnSizes] = useState<ColumnSize>({});
-    const minWidth = 15;
-    const width = 150;
-    const maxWidth = 200;
 
     const filterTypes = useMemo(
         () => ({
@@ -155,13 +154,8 @@ export function Table<T>(props: TableProps<T>): ReactElement {
                         value,
                         index
                     ),
-                ...(props.columnsResizable && column.resizable
-                    ? {
-                          width: column.defaultWidth || width,
-                          maxWidth: column.maxWidth || maxWidth,
-                          minWidth: column.minWidth || minWidth
-                      }
-                    : { weight: column.defaultWeight == null ? 1 : column.defaultWeight })
+                width: columnSizes[index.toString()] ? columnSizes[index.toString()] : width,
+                weight: column.defaultWeight == null ? 1 : column.defaultWeight
             })),
         [props.columns, columnSizes]
     );
@@ -195,7 +189,9 @@ export function Table<T>(props: TableProps<T>): ReactElement {
                         }}
                     />
                 </div>
-            )
+            ),
+            minWidth: 15,
+            width
         }),
         [props.columns]
     );

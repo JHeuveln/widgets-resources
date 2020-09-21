@@ -21,9 +21,6 @@ export interface ColumnsType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
-    minWidth: number;
-    maxWidth: number;
-    defaultWidth: number;
     defaultWeight: number;
 }
 
@@ -42,9 +39,6 @@ export interface ColumnsPreviewType {
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
-    minWidth: number | null;
-    maxWidth: number | null;
-    defaultWidth: number | null;
     defaultWeight: number | null;
 }
 
